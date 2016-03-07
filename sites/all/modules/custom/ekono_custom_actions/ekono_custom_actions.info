@@ -1,0 +1,4 @@
+name = Ekono Custom Actions
+description = "This module provides custom actions for being used in VBO"
+package = EKONO
+core = 7.x

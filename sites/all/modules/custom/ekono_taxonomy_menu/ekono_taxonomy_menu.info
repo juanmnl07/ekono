@@ -1,0 +1,9 @@
+name = Ekono Taxonomy Menu
+description = Hides the "brothers" links in the Product taxomy menu, applies custom order to the Products view.
+package = EKONO
+version = 7.x-1.0
+core = 7.x
+dependencies[] = taxonomy
+dependencies[] = taxonomy_menu
+files[] = ekono_taxonomy_menu.module
+scripts[] = js/ekono_taxonomy_menu.js

@@ -1,0 +1,163 @@
+<?php
+//kpr(get_defined_vars());
+//kpr($theme_hook_suggestions);
+//template naming
+//page--[CONTENT TYPE].tpl.php
+?>
+
+<script type="text/javascript">
+(function($) {
+  $(document).ready(function(){
+     
+   var titulosjs = new Array(<?php print  $page['content']['cadena_titulos']; ?>);
+   var bodysjs = new Array(<?php print  $page['content']['cadena_bodys']; ?>);  
+      
+   Galleria.on('image', function(e) {
+    Galleria.log(this); // the gallery scope
+    Galleria.log(e.imageTarget); // the currently active IMG element
+      //alert(titulosjs[e.index]);
+      $('div.galleria-info-title').html(titulosjs[e.index]);
+      $('div.galleria-info-description').html(bodysjs[e.index]);
+      
+     });
+    
+  });
+})(jQuery);
+</script>
+
+<?php if( theme_get_setting('mothership_poorthemers_helper') ){ ?>
+<!--page.tpl.php-->
+<?php } ?>
+
+<?php print $mothership_poorthemers_helper; ?>
+<!-- hola galeria video -->
+<div class="grid">
+	<header role="banner" class="col header">
+	  <div class="siteinfo">
+	    <?php if ($logo): ?>
+	      <figure>
+	      <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home">
+	        <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
+	      </a>
+	      </figure>
+	    <?php endif; ?>
+	  </div>
+	
+	  <?php if($page['header']): ?>
+	    <div class="header-region">
+	      <?php print render($page['header']); ?>
+	    </div>
+	  <?php endif; ?>
+
+	  <?php if($page['header_menu']): ?>
+	    <div class="header-menu">
+	      <?php print render($page['header_menu']); ?>
+	    </div>
+	  <?php endif; ?>
+	
+	</header>
+
+	<div class="page-title">
+		<?php print render($title_prefix); ?>
+	    <?php if ($title): ?>
+	      <h1><?php print $title; ?></h1>
+	    <?php endif; ?>
+	    <?php print render($title_suffix); ?>
+	    
+	    <?php print $breadcrumb; ?>
+	    
+	</div>
+
+	  <div role="main" class="col main-content">	
+	
+	    <?php if ($action_links): ?>
+	      <ul class="action-links"><?php print render($action_links); ?></ul>
+	    <?php endif; ?>
+	
+	    <?php if (isset($tabs['#primary'][0]) || isset($tabs['#secondary'][0])): ?>
+	      <nav class="tabs"><?php print render($tabs); ?></nav>
+	    <?php endif; ?>
+	
+	    <?php if($page['highlighted'] OR $messages){ ?>
+	      <div class="drupal-messages">
+	      <?php print render($page['highlighted']); ?>
+	      <?php print $messages; ?>
+	      </div>
+	    <?php } ?>
+	
+	    <?php print render($page['content_pre']); ?>
+	    
+	    <!-- llama al script de galeria -->
+	    <script src="<?php print $base_path; ?>sites/all/libraries/galleria/galleria-1.2.9.min.js"></script>
+	    
+	    
+	    <?php print str_replace('alt', 'data-title=" " data-description=" " alt',$page['content']['system_main']['main']['#markup']); render($page['content']);  ?>
+	  
+	    <!-- se activa galleria -->    
+	    <script>
+	    // Load the Azur theme
+	    Galleria.loadTheme('<?php print $base_path; ?>sites/all/libraries/galleria/themes/azur/galleria.azur.min.js');
+		//Galleria.loadTheme('<?php print $base_path; ?>sites/all/libraries/galleria/themes/classic/galleria.classic.min.js');
+		
+		Galleria.configure({
+		    	transition: 'fade',
+		    	imageCrop: true,
+		    	trueFullscreen: true,
+		    	//youtube below
+		    	modestbranding: 1,
+			    autohide: 1,
+			    color: 'white',
+			    hd: 1,
+			    rel: 0,
+			    showinfo: 1
+		    });
+		    Galleria.run('.galleria-videos');
+		</script>
+	
+	    <?php print render($page['content_post']); ?>
+	
+	  </div><!--/main-->
+	
+	  <?php if ($page['sidebar_first']): ?>
+	    <div class="col sidebar-first">
+	    <?php print render($page['sidebar_first']); ?>
+	    </div>
+	  <?php endif; ?>
+	
+	  <?php if ($page['sidebar_second']): ?>
+	    <div class="col sidebar-second">
+	      <?php print render($page['sidebar_second']); ?>
+	    </div>
+	  <?php endif; ?>
+	
+	<?php if ($page['under_content']): ?>
+	<div class="under-content wide">
+		<?php print render($page['under_content']); ?>
+	</div> <!-- under-content -->
+	<?php endif; ?>		
+	
+	<footer role="contentinfo" class="col footer">
+	  <div class="footer-col "><?php print render($page['footer']); ?></div>
+	  <div class="footer-col footer-second" ><?php print render($page['footer_second']); ?></div>
+	  <div class="footer-col footer-third"><?php print render($page['footer_third']); ?></div>
+	  <div class="footer-col footer-forth"><?php print render($page['footer_fourth']); ?></div>
+	  <div class="footer-col footer-fifth"><?php print render($page['footer_fifth']); ?></div>
+	</footer>
+</div> <!-- grid -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

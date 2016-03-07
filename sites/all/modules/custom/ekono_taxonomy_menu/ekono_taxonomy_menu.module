@@ -1,0 +1,451 @@
+<?php
+/**
+ * @file
+ *
+ * Module for several custom alterations to the Products Taxonomy Menu and to the Products view.
+ */
+
+/**
+ * Find the correct subtree.
+ */
+function _ekono_taxonomy_menu_find_item($tree, $arg_tid) {
+
+ foreach($tree as $item_key => $item) {
+
+   $tid = _taxonomy_menu_get_tid($item['link']['mlid']);
+
+   if($tid != $arg_tid) {
+     if(count($item['below']) > 0) {
+       return _ekono_taxonomy_menu_find_item($item['below'], $arg_tid);
+     }
+   }
+   else {
+     return $item;
+   }
+
+ } // foreach tree. 
+
+}
+
+function ekono_taxonomy_menu_views_default_views_alter(&$views){
+ 
+}
+
+
+/**
+ * Alter the menu tree and its configuration before the tree is rendered.
+ *
+ * @param $tree
+ *   An array containing the unrendered menu tree.
+ * @param $config
+ *   An array containing the configuration of the tree.
+ */
+function ekono_taxonomy_menu_menu_block_tree_alter(&$tree, &$config) {
+
+  $arg = arg();
+
+  if (count($arg) >= 3 && $arg[0] == 'taxonomy' && $arg[1] == 'term') {
+
+    $tid = $arg[2];
+    $vocabulary = taxonomy_vocabulary_machine_name_load('product_category');
+    $children = taxonomy_get_children($tid, $vocabulary->vid);
+
+    // Si estamos en una hoja, obtener el padre
+    // para mostrar la rama padre y no sólo hijos
+    // porque de otra manera el menú quedaría
+    // casi vacío (1 elemento).
+    if (count($children) == 0) {
+      $parents = taxonomy_get_parents($tid);
+
+      foreach($parents as $parent) {
+        $tid = $parent->tid;
+      }
+    }   
+  
+    $item = _ekono_taxonomy_menu_find_item($tree, $tid);
+    $ekono_item['ekono' . $item['link']['link_title'] . $item['link']['mlid'] ] = $item;
+  
+    $tree = $ekono_item;
+
+  }
+}
+
+/**
+ * Cambiar el orden de la vista, cuando está en 
+ * el primer nivel ordena por fecha de creación y título,
+ * a partir del segundo ordena por importancia e id del nodo.
+ */
+function ekono_taxonomy_menu_views_query_alter(&$view, &$query) {
+ 
+  if($view->name == 'productos_listados_secci_n') {
+
+    $arg = arg();
+    if (count($arg) >= 3 && $arg[0] == 'taxonomy' && $arg[1] == 'term') {
+
+      $tid = $arg[2];
+      if ( count(taxonomy_get_parents($tid)) > 0 ) {
+        unset($query->orderby[0]);
+        unset($query->orderby[1]);
+      }
+      else {
+        unset($query->orderby[2]);
+        unset($query->orderby[3]);
+      }
+    }
+  }
+}
+
+/**
+ * Implementación hook_block_view_MODULE_DELTA_alter.
+ * Cambia el título del bloque de taxonmy_menu
+ * según el nivel en que se encuentre dentro
+ * del árbol de ítems de menú.
+ */
+function ekono_taxonomy_menu_block_view_menu_block_1_alter(&$data, $block) {
+
+  $arg = arg();
+  if (count($arg) >= 3 && $arg[0] == 'taxonomy' && $arg[1] == 'term') {
+
+   /* $tid = $arg[2];
+    $vocabulary = taxonomy_vocabulary_machine_name_load('product_category');
+    $children = taxonomy_get_children($tid, $vocabulary->vid);
+    $parents = taxonomy_get_parents($tid);
+
+    // Estamos en una hoja.
+    if (count($children) == 0) {
+
+      foreach($parents as $parent) {
+        $tid = $parent->tid;
+      }
+      $parent_1 = taxonomy_term_load($tid);
+
+      $parents = taxonomy_get_parents($parent_1->tid);
+      foreach($parents as $parent) {
+        $tid = $parent->tid;
+      }
+      $parent_2 = taxonomy_term_load($tid);
+
+      $data['subject'] = "<h2>$parent_2->name</h2><h3>$parent_1->name</h3>";
+    }   
+    // Estamos en el nivel 2.
+    else if (count($parents) > 0) {
+      foreach($parents as $parent) {
+        $tid = $parent->tid;
+      }
+      $term = taxonomy_term_load($tid);
+      $data['subject'] = "<h2>DEPARTAMENTOS</h2><h3>$term->name</h3>";
+    }
+    // Nivel 1.
+    else {
+      //$data['subject'] = '<h2>DEPARTAMENTOS</h2>';
+      $data['subject'] = '';
+    }*/
+  }
+  else {
+    $data['subject'] = 'DEPARTAMENTOS';
+  }
+}
+
+
+function ekono_taxonomy_menu_node_view_alter(&$build)
+{  
+   if(isset($build['product:field_con_descuento']['#items'][0]['value']))
+    if($build['product:field_con_descuento']['#items'][0]['value'] == 0){
+      $build['product:field_con_descuento']['#prefix'] = '<div class="commerce-product-field commerce-product-field-field-con-descuento field-field-con-descuento node-374-product-field-con-descuento hide">';
+    
+     }
+}
+/** 
+ * Crea la lista de selección para las categorías de productos.
+ */
+function ekono_taxonomy_menu_form_views_exposed_form_alter(&$form, $form_state, $form_id) {
+ 
+
+  if ($form_id == 'views_exposed_form' && drupal_get_path_alias() == 'admin/commerce/config/descuentos'){
+
+    $nivel_uno = isset($form_state['input']['nivel_uno']) ? $form_state['input']['nivel_uno'] : 0;
+    $nivel_dos = isset($form_state['input']['nivel_dos']) ? $form_state['input']['nivel_dos'] : 0;
+
+
+    $form['nivel_uno'] = array(
+      '#type' => 'select',
+      '#title' => t('Seleccione la categoría'),
+      '#multiple' => false,
+      '#options' => _ekono_taxonomy_menu_nivel_uno(),
+      '#description' => t('Seleccione una categoría.'),
+      '#weight' => -2,
+      '#default_value' => $nivel_uno,
+      /*'#ajax' => array(
+        'event' => 'change',q9xel>`2x9pwqtZH
+        'callback' => '_ekono_taxonomy_menu_subnivel_ajax',
+        'wrapper' => 'wrapper-nivel-dos'
+      ),*/
+    );
+   
+     $form['nivel_dos'] = array(
+       '#type' => 'select',
+       '#title' => t('Seleccione la categoría'),
+       /*'#prefix' => '<div id="wrapper-nivel-dos">',
+       '#suffix' => '</div>',*/
+       '#multiple' => false,
+       '#options' => _ekono_taxonomy_menu_subnivel($nivel_uno),
+       '#description' => t('Seleccione una categoría.'),
+       '#weight' => -1,
+       '#states' => array( 
+         'invisible' => array(
+           ':input[name="nivel_uno"]' => array('value' => '0'),
+         ),
+       ),
+     );
+     
+      $form['nivel_tres'] = array(
+       '#type' => 'select',
+       '#title' => t('Seleccione la categoría'),
+       '#multiple' => false,
+       '#options' => _ekono_taxonomy_menu_subnivel($nivel_dos),
+       '#description' => t('Seleccione una categoría.'),
+       '#weight' => -1,
+       '#states' => array( 
+         'invisible' => array(
+           ':input[name="nivel_dos"]' => array('value' => '0'),
+         ),
+       ),
+     );
+     
+  }
+  return $form;
+}
+
+/**
+ * Altera la consulta para la búsqueda de productos,
+ * incluyendo un filtro por categoría.
+ */
+function ekono_taxonomy_menu_query_alter(QueryAlterableInterface $query) {
+
+  if ($query->hasAllTags('views', 'views_Descuentos')) {
+    $term = 0;
+    $children = array();
+    $tids = array();
+    
+    if( isset($_GET['nivel_tres']) && $_GET['nivel_tres'] > 0) {
+      $term = $_GET['nivel_tres'];
+      
+      if($term > 0 ){
+      $query->addJoin('INNER', 'taxonomy_index', 'ti', 'field_data_field_product.entity_id = ti.nid');
+      $query->condition('ti.tid', $term, '=');
+     }
+    } // if isset nivel tres.
+    
+    else if( isset($_GET['nivel_dos']) && $_GET['nivel_dos'] > 0 ) {
+      $term = $_GET['nivel_dos'];
+      if($term > 0 ){
+          
+      $query->addJoin('INNER', 'taxonomy_index', 'ti', 'field_data_field_product.entity_id = ti.nid');
+      
+      array_push($tids, $term);
+      
+      $children = taxonomy_get_children($term, 3);
+      
+      foreach($children as $child) {
+        array_push($tids, $child->tid);  
+      } // foreach
+      
+      $query->condition('ti.tid', $tids, 'IN');
+      
+     }
+    } // if isset nivel dos.
+   
+    else if( isset($_GET['nivel_uno']) && $_GET['nivel_uno'] > 0 ) {
+      $term = $_GET['nivel_uno'];
+      
+      if($term > 0 ){
+         
+      $query->addJoin('INNER', 'taxonomy_index', 'ti', 'field_data_field_product.entity_id = ti.nid');
+     
+      array_push($tids, $term);
+      
+      $children1 = taxonomy_get_children($term, 3);
+
+      foreach($children1 as $child) {
+        array_push($tids, $child->tid);  
+        
+         $children2 = taxonomy_get_children($child->tid, 3);
+         
+         foreach($children2 as $child2) {
+             array_push($tids, $child2->tid);  
+         }
+        
+       }
+       
+       $query->condition('ti.tid', $tids, 'IN');
+      
+     }
+      
+      
+    } // if isset nivel_uno.
+    
+
+
+    
+
+  } // if query has tags.
+}
+
+/**
+ * Implementación de hook_form_FORM_ID_alter.
+ * 
+ * Agrega el título "Usuarios Registrados" al formulario de login.
+ */
+function ekono_taxonomy_menu_form_user_login_block_alter(&$form, &$form_state, $form_id) {
+  $form['titulo_form'] = array(
+    '#type' => 'item',
+    '#markup' => '<h2>Usuarios Registrados</h2>',
+    '#weight' => -1,
+  );
+}
+
+
+/*
+ * Esconde el nombre y dirección en la página de usuario.
+ */
+function ekono_taxonomy_menu_page_alter(&$page){
+   
+  $page['content']['system_main']['information']['billing_profile']['#access'] = false;
+  $page['content']['system_main']['information']['shipping_profile']['#access'] = false;
+ 
+
+}
+
+
+function _ekono_taxonomy_menu_nivel_uno(){
+    
+    $categorias = db_query("SELECT tid, name FROM {taxonomy_term_data} WHERE vid = 3")->fetchAllKeyed();
+    $productos[0] = t('Todas');
+
+    foreach($categorias as $item_key => $item) {
+
+      $limit = 99;
+      $depth = 1;
+      $tid = $item_key;
+      while($parent = db_query('SELECT parent FROM taxonomy_term_hierarchy WHERE tid = '. $tid)->fetchField()) {
+        $depth++;
+        $tid = $parent;
+        if($depth > $limit) break;
+      } // while depth.
+   
+      if ($depth == 1){
+        $productos[$item_key] = $item;
+      }
+     
+      /*if($depth == 2) {
+        $productos[$item_key] = "- $item";
+      }
+      else if($depth == 3) {
+        $productos[$item_key] = "-- $item";
+      }*/
+    } // foreach productos.    
+    return $productos;
+}
+
+function _ekono_taxonomy_menu_subnivel($tid) {
+
+  $children = taxonomy_get_children($tid, 3);
+  $productos[0] = t('Todas');
+
+  foreach( $children as $item_key => $item ) {
+    $productos[$item_key] = $item->name;
+  }
+
+  return $productos;
+
+}
+
+function ekono_taxonomy_menu_block_view($delta = '') {
+
+  $block = array();
+
+  // Taxonomy menu block.
+  if ($delta == 'ekono_productos_bloque') {
+
+    $vocabulary = taxonomy_vocabulary_machine_name_load('product_category');
+    $terms = taxonomy_get_tree($vocabulary->vid); // Use the correct vocabulary id.
+
+    // Build the menu.
+    $depth = 0;
+    $term_count = count($terms);
+    $cont = '<div class="category-menu"><h2>DEPARTAMENTOS</h2><ul class="menu">';
+    for ($i = 0; $i < $term_count; $i++) {
+      // Build the classes string.
+      $classes = 'menu-mlid-3258';
+
+      if ($i == 0) $cont .= '<li class="first '.$classes.'">'.l($terms[$i]->name, 'taxonomy/term/'.$terms[$i]->tid);
+      else {
+        if ($terms[$i]->depth == $depth) $cont .= '</li><li class="'.$classes.'">'.l($terms[$i]->name, 'taxonomy/term/'.$terms[$i]->tid);
+
+        // If we have reached the last element add all possibly missing end-tags.
+        if (!isset($terms[$i+1])) {
+          for ($j = 0; $j < $terms[$i]->depth; $j++) {
+            $cont .= '</li></ul>';
+          }
+        }
+      }
+      //$depth = $terms[$i]->depth;
+    }
+    $cont .= '</li></ul></div>';
+
+    // Set the menu html as block content.
+    $block['content'] = array('#markup' => $cont);
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_block_info.
+ */
+function ekono_taxonomy_menu_block_info() {
+
+  $blocks['ekono_productos_bloque'] = array(
+    'info' => t('Menú de productos.'),
+    'region' => 'ekono',
+  );
+
+  return $blocks;
+}
+
+
+function ekono_taxonomy_menu_breadcrumb_alter(&$active_trail, $item) {
+
+    
+    if (isset($active_trail[2]) && $active_trail[2] == '<a href="/ekono/Tecnolog%C3%ADa%3Aurl">Tecnología</a>')
+    {
+    $active_trail[2] = '<a href="/ekono/noticias/tecnologia">Tecnología</a>';
+    }
+    
+    if(current_path() == 'noticias'){
+        $active_trail[1] = '<span class="crumb crumb-2 current"><span>Noticias y Novedades</span></span>';
+    }
+    elseif(current_path() == 'juegos'){
+    $active_trail[1] = '<span class="crumb crumb-2 current"><span>Juegos</span></span>';
+    }
+
+    if($item == 'nuestras-tiendas/tiendas'){
+    $indice_tid = strpos(request_uri() , '=');
+    $tid = substr(request_uri() , $indice_tid + 1);
+    
+    
+    //dsm($active_trail[2]);
+    //dsm($active_trail[1]);
+    $term = taxonomy_term_load($tid);
+    
+     if (isset($active_trail[2]) && isset($term->name)) {
+         //dsm($active_trail[1]);
+       $active_trail[2] = $term->name;
+       $active_trail[1] = str_replace('nuestras-tiendas', 'donde-estamos', $active_trail[1]);
+      }
+    }
+}
+    
+    
+    
+

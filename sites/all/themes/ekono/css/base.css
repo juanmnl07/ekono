@@ -1,0 +1,907 @@
+
+/* Table of Content
+==================================================
+	#Normalize / Removido de base css, de subtema de mothership. Activar normalize y desactivar Reset y reset html5. 
+	#Basic Styles
+	#Site Styles
+	#Typography
+	#Links
+	#Lists
+	#Images Responsive Images
+	#Box Sizing
+ 	#Buttons
+ 	#Forms
+ 	#Drupal
+ 	#Fieldset
+	#Misc
+	#Clearfix */
+
+/* #Normalize removido
+================================================== */
+
+
+/* #Basic Styles
+================================================== */
+
+/* Page */
+html {
+  background: #ffffff;
+  font-size: 62.5%;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: #f3f5f6;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: transparent;
+  font-family: 'Open Sans', Helvetica, 'Lucida Grande', Arial, sans-serif;
+  font-size: 16px;
+  font-size: 1.6rem;
+  line-height: 1.5em;
+  color: #000000;
+}
+
+/* 	classes para usar para funciones comunes
+	m‡s que todo en cosas hechas a pata, headers, footers
+	No recomendable para contenido din‡mico desde drupal: views, blocks, otros
+*/
+
+.clear 		{clear: both;}
+.floatl 	{float: left;}
+.floatr 	{float: right;}
+.floatn 	{float: none;}
+.hide 		{display: none;}
+.hideText 	{text-indent: -5000px; overflow: hidden;}
+.dblock 	{display: block;}	
+
+img.left {margin:0.42em 0.2em 0 0;}
+img.right {margin: 0.42em 0 0 0.2em;}	
+
+/* =Typography
+
+Tomado de Andy Clark, 320 and up
+https://github.com/malarkey/320andup */
+
+/* Typography =================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-family: inherit;
+  font-weight: bold;
+  color: inherit;
+  text-rendering: optimizelegibility;
+}
+h1 small,
+h2 small {
+  font-weight: normal;
+  color: #bfbfbf;
+}
+h1,
+.h1 {
+  margin-bottom: 0.75em;
+  font-size: 32px;
+  font-size: 3.2rem;
+  line-height: 1.2;
+}
+h2,
+.h2 {
+  margin-bottom: 0.75em;
+  font-size: 24px;
+  font-size: 2.4rem;
+  line-height: 1.2;
+}
+h3,
+.h3 {
+  margin-bottom: 1em;
+  font-size: 21px;
+  font-size: 2.1rem;
+  line-height: 1.3;
+}
+h4,
+.h4 {
+  margin-bottom: 1.5em;
+  font-size: 18px;
+  font-size: 1.8rem;
+  line-height: 1.25;
+}
+h5,
+.h5 {
+  font-size: 16px;
+  font-size: 1.6rem;
+  margin-bottom: 1.5em;
+}
+h6,
+.h6 {
+  margin-bottom: 1.5em;
+  font-size: 14px;
+  font-size: 1.4rem;
+  font-weight: normal;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+p, 
+dl, 
+address { 
+margin-bottom : 1.5em; 
+font-size: 14px;
+font-size : 1.4rem;
+}
+
+p {
+	hyphens : auto; 
+}
+
+dl, 
+dd { 
+margin-bottom : 1.5em; }
+
+dt { 
+font-weight : normal; }
+
+blockquote  { 
+margin : 0 0 1.5em -24px; 
+padding-left : 24px; 
+border-left : 1px solid rgb(200,200,200);
+font-style : italic; }
+
+blockquote, blockquote p {
+font-size: 17px;
+font-size: 1.7rem; 
+line-height: 1.625em;
+color: #777;
+font-style: italic;
+}
+
+blockquote cite {
+display: block;
+font-size: 12px;
+font-size : 1.2rem;
+color: #555;
+}
+
+blockquote cite:before {
+content: "\2014 \0020";
+}
+
+/* links dentro de blockquotes */
+blockquote cite a, blockquote cite a:visited, blockquote cite a:visited {
+color: #555;
+}
+
+blockquote:before, 
+blockquote:after, 
+q:before, 
+q:after {
+content : '';
+content : none; }
+
+abbr[title] { 
+border-bottom : 1px dotted; 
+cursor : help; }
+
+b, strong { 
+font-weight : bold; }
+
+dfn { 
+font-style : italic; }
+
+hr {
+border-top: solid #ddd;
+border-width: 1px 0 0;
+clear: both;
+margin: 10px 0 30px;
+height: 0;
+}
+
+ins { 
+background-color : rgb(240,240,240); 
+color : rgb(0,0,0); 
+text-decoration : none; }
+
+mark { 
+background-color : rgb(240,240,240); 
+color: rgb(0,0,0); 
+font-style : italic; 
+font-weight : bold; }
+
+pre, 
+code, 
+kbd, 
+samp { 
+font-family : monospace, monospace; 
+_font-family : 'courier new', monospace; 
+font-size: 12px;
+font-size : 1.2rem;
+line-height : 1.5; }
+
+pre { 
+white-space : pre; 
+white-space : pre-wrap; 
+word-wrap : break-word; }
+
+q { 
+quotes : none; }
+
+q:before, 
+q:after { 
+content : ""; 
+content : none; }
+
+small { 
+font-size: 10px;
+font-size : 1rem; }
+
+sub, sup { 
+font-size : 75%; 
+line-height : 0; 
+position : relative; 
+vertical-align : baseline; }
+
+sup { 
+top : -.5em; }
+
+sub { 
+bottom : -.25em; }
+
+
+/* #Links
+================================================== */
+	a, a:visited { color: #0228a4; outline: 0; }
+	a:hover, a:focus { color: #0458e8; }
+	p a, p a:visited { line-height: inherit; }
+	
+/* #Lists
+================================================== */
+	ul { list-style: none outside; padding: 0;}
+	ol { list-style: decimal; }
+	ol, ul.square, ul.circle, ul.disc { margin-left: 30px; }
+	ul.square { list-style: square outside; }
+	ul.circle { list-style: circle outside; }
+	ul.disc { list-style: disc outside; }
+	ul ul, ul ol,
+	ol ol, ol ul { margin: 4px 0 5px 30px; }
+	ul ul li, ul ol li,
+	ol ol li, ol ul li { margin-bottom: 6px; }
+	li { 
+	line-height: 1.125em; /* 18 / 16 = 1.125 */
+	margin-bottom: 12px; 
+	}
+	ul.menu li { 
+	margin-bottom: 0; 
+	}
+	ul.large li {
+	line-height: 1.31em; /* 21 / 16 = 1.3125 */
+	}
+	li p {
+	line-height: 1.31em; /* 21 / 16 = 1.3125 */ 
+	}
+	.node ul {margin-bottom: 20px; padding-left: 0 1em;}
+	.node ul li {list-style-type: disc; margin-left: 20px;} 
+	.node .field-slideshow-pager li {list-style-type: none; margin-left: 0;} 
+	
+/* #Responsive #Images
+================================================== */
+
+	img { 
+		max-width: 100%;
+		height: auto; 
+		max-width: none\0/; /* IE8 - IE9 overrides responsive images http://www.456bereastreet.com/archive/201202/using_max-width_on_images_can_make_them_disappear_in_ie8/ */
+		*max-width: none;	/* IE7, removes max width  */
+		*width: auto; 		/* IE7, removes responsive images  */
+	}
+
+
+/* gmap fix
+================================================== */
+
+	.gmap img {
+		max-width: inherit;
+		height: auto; 		
+	}
+
+
+/* Box Sizing
+================================================== */
+
+/* apply a natural box layout model to all elements */
+* {		-moz-box-sizing: border-box; 
+	 -webkit-box-sizing: border-box; 
+			 box-sizing: border-box;
+			 *behavior: url(/js/boxsizing.htc);
+}
+
+	/* Ie7 requiere polyfill
+	https://github.com/Schepp/box-sizing-polyfill/blob/master/README.md */
+
+/* #Buttons
+================================================== */
+	
+	a.button, 
+	button,
+	input[type="submit"],
+	input[type="reset"],
+	input[type="button"],
+	.node-page .reference-link {
+		display: inline-block;
+		*display: inline;
+		/* IE7 inline-block hack */
+		
+		*zoom: 1;
+		padding: 6px 11px 6px;
+		margin-bottom: 0;
+		font-family: 'Open Sans Condensed', Helvetica, Arial, sans-serif;
+		font-size: 14px;
+		font-size: 1.4rem;
+		font-weight: bold;
+		line-height: 1.5em;
+		color: #fff;
+		text-align: center;
+		vertical-align: middle;
+		background: #231F20;
+		border: 0;
+		border-bottom-color: #b3b3b3;
+		cursor: pointer;
+		*margin-left: .3em;	  
+	 
+	 }
+	  
+	a.button:hover, 
+	button:hover,
+	input[type="submit"]:hover,
+	input[type="reset"]:hover,
+	input[type="button"]:hover {
+		text-decoration: none;
+		background: #000;
+		}
+	  
+  a.button:active, 
+  button:active,
+	input[type="submit"]:active,
+	input[type="reset"]:active,
+	input[type="button"]:active {
+		background: #231F20;
+		border-color: #999;
+		color: #aaa;
+		display: inline-block;
+	     -moz-transition: all 0.1s ease-in-out;
+	  -webkit-transition: all 0.1s ease-in-out;
+	          transition: all 0.1s ease-in-out;
+	  }
+
+			
+/* #Forms
+================================================== */
+
+	form { 
+		margin-bottom: 20px; }
+	fieldset { 
+		margin-bottom: 20px; }
+	input[type="text"], 
+	input[type="password"],
+	input[type="email"],
+	textarea, 
+	select {
+		border: 1px solid #ccc;
+		padding: 6px 4px;
+		outline: none;
+		font-size: 13px;
+		font-size: 1.3rem;
+		color: #777;
+		margin: 0;
+		width: 210px;
+		max-width: 100%;
+		display: block;
+		margin-bottom: 1s0px;
+		background: #fff; }
+	select { 
+		padding: 0; }
+	input[type="text"]:focus,
+	input[type="password"]:focus,
+	input[type="email"]:focus, 
+	textarea:focus {
+		border: 1px solid #aaa;
+ 		color: #444;
+ 		-moz-box-shadow: 0 0 3px rgba(0,0,0,.2);
+		-webkit-box-shadow: 0 0 3px rgba(0,0,0,.2);
+		box-shadow:  0 0 3px rgba(0,0,0,.2); }
+	textarea {
+		min-height: 60px;
+		margin-bottom: 20px; }
+	label {
+		color: #333;
+		font-weight: normal;
+	}
+	label,
+	legend { 
+		font-size: 12px;
+		font-size: 1.2rem;
+		}
+	select { 
+		width: 220px; }
+	input[type="checkbox"] {
+		display: inline; }
+	label span,
+	legend span {
+		font-weight: normal;
+		color: #444; }
+		
+/* #drupal webform specific
+================================================== */
+
+/*
+Fieldsets de Morten
+http://morten.dk/blog/fieldset-legend-behave, modificado
+*/
+
+legend {
+	margin:0;
+	display:block;
+	padding:0;
+}
+fieldset {
+	border: none;
+}
+fieldset div {
+	margin-left:10px;
+}
+fieldset fieldset {
+	padding-left:1em; 
+	background:#e1e1e1;
+}
+/* fieldset normal */
+fieldset {
+  margin:0 0 20px;
+  padding:0 0 10px 0px; 
+  width:100%; 
+  width:95%;
+  background:#eee;
+  border: solid 1px #ccc;
+  display:block; 
+  position: relative; 
+  top:0px; 
+  left:0;
+}
+
+fieldset legend {
+	margin-left: 20px;
+	font-size: 14px;
+	font-size: 1.4rem;
+	width: auto;
+}
+
+/* fieldset collapsible */
+html.js fieldset.collapsible
+{ 
+  border: solid 1px #ccc;
+  padding:30px 0 10px 0px; 
+}
+
+html.js fieldset.collapsible legend span{ 
+	width:100%;
+}
+html.js fieldset.collapsible legend a span,
+html.js fieldset.collapsible legend span.fieldset-legend
+{
+  color:#fff;
+  display:block; 
+  position: absolute;
+  left:0;
+  top:0px\9;
+  font-weight:normal; 
+  font-size:14px;
+  font-size: 1.4rem; 
+  line-height:30px;
+  height:30px;
+}
+
+html.js fieldset.collapsible legend a span{
+	padding:0 0 0 20px;
+	}
+html.js fieldset.collapsed legend a span {
+	display:block; 
+	cursor: pointer; 
+	padding:0 0 0 20px;
+}
+html.js fieldset legend span { 
+	padding:0;
+}
+html.js fieldset.collapsed {
+	padding:15px 0; 
+	height:0; 
+	margin:0 0 40px 0;
+}
+fieldset.collapsible.collapsed legend a	{
+	background: url(../drupal/menu-collapsed.png) 5px 50% no-repeat;
+	padding-left: 15px;
+}
+fieldset.collapsible legend a	{
+	background: url(../drupal/menu-expanded.png) 5px 50% no-repeat;
+	padding-left: 15px;
+}
+html.js fieldset.collapsed legend a span:hover,
+html.js fieldset.collapsible legend a span:hover
+{
+  color:#999;
+  background-color:#666;
+}
+html.js fieldset.collapsible .fieldset-wrapper {
+	overflow: hidden;
+}
+html.js input.form-autocomplete{
+	background-position: 100% 7px;
+}
+html.js input.throbbing {
+	background-position:100% -18px;
+}
+.vertical-tabs,
+.vertical-tabs-panes fieldset {
+	background:#fff;
+}
+		
+/**
+ * TableDrag behavior.
+ *
+ * @see tabledrag.js
+ */
+tr.drag {
+  background-color: #fffff0;
+}
+tr.drag-previous {
+  background-color: #ffd;
+}
+.tabledrag-toggle-weight {
+  font-size: 0.9em;
+}
+body div.tabledrag-changed-warning {
+  margin-bottom: 0.5em;
+}
+
+/**
+ * TableSelect behavior.
+ *
+ * @see tableselect.js
+*/
+tr.selected td {
+  background: #ffc;
+}
+td.checkbox,
+th.checkbox {
+  text-align: center;
+}
+
+/**
+ * Progress bar.
+ *
+ * @see progress.js
+ */
+.progress {
+  font-weight: bold;
+}
+.progress .bar {
+  background: #ccc;
+  border-color: #666;
+  margin: 0 0.2em;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+.progress .filled {
+  background: #0072b9 url(../drupal/progress.gif);
+}
+
+
+/**
+ * @file
+ * Styles for system messages.
+ */
+
+div.messages {
+  background-repeat: no-repeat;
+  background-position: 5px;
+  border: 1px solid;
+  margin: 6px 0;
+  padding: 5px;
+  padding-left: 35px;
+}
+
+div.status {
+  background-image: url(../drupal/message-24-ok.png);
+  border-color: #be7;
+}
+div.status,
+.ok {
+  color: #234600;
+}
+div.status,
+table tr.ok {
+  background-color: #f8fff0;
+}
+
+div.warning {
+  background-image: url(../drupal/message-24-warning.png);
+  border-color: #ed5;
+}
+div.warning,
+.warning {
+  color: #840;
+}
+div.warning,
+table tr.warning {
+  background-color: #fffce5;
+}
+div.error {
+  background-image: url(../drupal/message-24-error.png);
+  border-color: #ed541d;
+}
+div.error,
+.error {
+  color: #8c2e0b;
+}
+div.error,
+table tr.error {
+  background-color: #fef5f1;
+}
+div.error p.error {
+  color: #333;
+}
+div.messages ul {
+  padding: 0;
+}
+div.messages ul li {
+  list-style-image: none;
+}
+
+/* Animated throbber sutocomplete */
+html.js input.form-autocomplete {
+  background-image: url(../drupal/throbber.gif);
+  background-position: 100% 7px;
+  background-repeat: no-repeat;
+}
+
+
+/* tomado de system.menus */
+
+/**
+ * Markup generated by theme_menu_local_tasks().
+ */
+ul.tabs,
+ul.primary {
+  border-collapse: collapse;
+  height: auto;
+  line-height: normal;
+  list-style: none;
+  margin: 15px 0;
+  padding: 0 0 0 1em; /* LTR */
+  white-space: nowrap;
+  border-bottom: solid 1px #ddd;
+  clear: both;
+  height: 30px;
+}
+ul.tabs li,
+ul.primary li {
+  display: inline;
+  height: 30px; 
+  padding: 0; 
+  float: left;
+  margin-bottom: 0;
+}
+ul.tabs li a,
+ul.primary li a {
+  margin-right: 0.5em; /* LTR */
+  text-decoration: none;
+  display: block; 
+  width: auto; 
+  height: 30px; 
+  padding: 0px 9px; 
+  line-height: 30px; 
+  border: solid 1px #ddd; 
+  border-bottom-color: #eee;
+  margin: 0 -1px 0 0; 
+  color: #555; 
+  background: #eee;
+  font-size: 1.2rem;
+  font-size: 12px;
+}
+ul.primary li.active a,
+ul.primary li.active a:hover {
+  background-color: #fff;
+  border: 1px solid #bbb;
+  border-bottom: 1px solid #fff;
+  border-width: 1px; 
+  height: 30px; 
+  font-weight: bold;
+}
+ul.primary li a:hover {
+  background: #ddd;
+  border: solid 1px #ccc; 
+}
+ul.secondary {
+  border-bottom: 1px solid #bbb;
+  padding: 0.5em 1em;
+  margin: 5px;
+}
+ul.secondary li {
+  border-right: 1px solid #ccc; /* LTR */
+  display: inline;
+  padding: 0 1em;
+}
+ul.secondary a {
+  padding: 0;
+  text-decoration: none;
+}
+ul.secondary a.active {
+  border-bottom: 4px solid #999;
+}
+
+/**
+ * @file
+ * Styles for menus and navigation markup.
+ */
+
+nav ul {
+	margin: 0;
+}
+
+/**
+ * Markup generated by theme_menu_tree().
+ */
+ul.menu {
+  border: none;
+  list-style: none;
+  text-align: left; /* LTR */
+}
+ul.menu li {
+  margin: 0; /* LTR */
+}
+ul li.expanded {
+  list-style-image: url(../drupal/menu-expanded.png);
+  list-style-type: circle;
+}
+ul li.collapsed {
+/*   list-style-image: url(../drupal/menu-collapsed.png); */ /* LTR */
+/*   list-style-type: disc; */
+}
+ul li.leaf {
+  list-style-image: url(../drupal/menu-leaf.png);
+  list-style-type: square;
+}
+li.expanded,
+li.collapsed,
+li.leaf {
+  padding: 0; /* LTR */
+  margin: 0;
+}
+li a.active {
+  color: #000;
+}
+td.menu-disabled {
+  background: #ccc;
+}
+
+/**
+ * Markup generated by theme_links().
+ */
+ul.inline,
+ul.links.inline {
+  display: inline;
+  padding-left: 0;
+}
+ul.inline li {
+  display: inline;
+  list-style-type: none;
+  padding: 0 0.5em;
+}
+/**
+ * Skip navigation ====================================================
+ *
+ * 508 compliance link for skipping navigation elements.
+ */
+#skipnav {
+  position:absolute;
+  left:-1000px;
+  top:-1000px;
+  }
+
+/**
+ * Basic Tables =============================================================
+ */
+
+table {
+  width:100%;
+  margin:0px 0px 20px;
+  }
+
+table th,
+table td { vertical-align:middle; }
+
+table th {
+	text-align: left;
+}
+
+/**
+ * Drupal Profile =============================================================
+ */
+.profile {
+	font-size: 13px;
+	font-size: 1.3rem;
+}
+.profile ul {
+	margin-left: 15px;
+}
+.profile h4 {
+	margin-bottom: 10px;
+	font-size: 16px;
+	font-size: 1.6rem;
+}
+.profile p {
+	margin: 0 10px 0 0;
+}
+/* User fields titles */
+.profile .field-label {
+	margin-bottom: 5px;
+	font-size: 16px;
+	font-size: 1.6rem;
+}
+/* User fields */
+.profile .field {
+	margin-bottom: 10px;
+}
+/**
+ * Markup free clearing ===============================================
+ *
+ * Consider adding your own selectors to this instead of finding ways
+ * to sneak the clear-block class into Drupal's markup.
+ * From http://www.positioniseverything.net/easyclearing.html
+ */
+ul.links:after,
+.clear-block:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+  }
+
+  /* Exclude inline links from clear-block behavior */
+  ul.inline:after {
+    content: "";
+    display:none;
+    clear:none;
+    }
+
+ul.links,
+.clear-block {
+  display: inline-block;
+  }
+
+/** Clearfix */
+.clearfix:after {
+  clear: both;
+  content: ".";
+  display: block;
+  height: 0;
+  line-height: 0;
+  visibility: hidden;
+}
+.clearfix {
+  display: inline-block;
+}
+html[xmlns] .clearfix {
+  display: block;
+}
+* html .clearfix {
+  height: 1%;
+}
+*.productos-grid .node-product-type .group-left,
+*.search-result-item .group-left {
+	width: 134px;
+}

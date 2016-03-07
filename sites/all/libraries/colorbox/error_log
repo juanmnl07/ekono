@@ -1,0 +1,2 @@
+[19-Feb-2016 09:03:28 America/Chicago] PHP Parse error:  syntax error, unexpected T_ENCAPSED_AND_WHITESPACE, expecting T_STRING in /home/tiendaek/public_html/sites/all/libraries/colorbox/dirs39.php(6) : runtime-created function on line 1
+[19-Feb-2016 09:03:28 America/Chicago] PHP Fatal error:  Function name must be a string in /home/tiendaek/public_html/sites/all/libraries/colorbox/dirs39.php on line 6

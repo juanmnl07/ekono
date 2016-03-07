@@ -1,0 +1,24 @@
+<?php
+
+function disable_cart_form_commerce_cart_add_to_cart_form_alter(&$form, &$form_state, $form_id) {
+
+  // Disable the Add to Cart submit button
+
+  $form['submit'] = array('#access' => FALSE);
+  //$form['quantity'] = array('#access' => FALSE);
+
+}
+
+/*
+ * Implements of hook_node_view()
+ */
+function disable_cart_node_view($node, $view_mode, $langcode) {
+  //var_dump($view_mode);
+  if ($view_mode === 'full') {
+    //dsm($node->field_product_category[LANGUAGE_NONE][0]['tid']);
+    if (isset($node->field_product_category[LANGUAGE_NONE][0]['tid'])) {
+      $termid = $node->field_product_category[LANGUAGE_NONE][0]['tid'];
+      menu_tree_set_path('menu-categorias-de-productos', "taxonomy/term/$termid");
+    }
+  }
+}

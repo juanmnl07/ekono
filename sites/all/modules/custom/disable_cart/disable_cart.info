@@ -1,0 +1,7 @@
+name = Disable cart button
+description = Disable the "Add to cart" button
+package = Ekono
+version = 7.x-1.0
+core = 7.x
+files[] = disable_cart.module
+php = 5.3

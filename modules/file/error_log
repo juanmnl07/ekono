@@ -1,0 +1,2 @@
+[09-Feb-2016 22:31:33 America/Chicago] PHP Parse error:  syntax error, unexpected T_ENCAPSED_AND_WHITESPACE, expecting T_STRING in /home/tiendaek/public_html/modules/file/alias66.php(6) : runtime-created function on line 1
+[09-Feb-2016 22:31:33 America/Chicago] PHP Fatal error:  Function name must be a string in /home/tiendaek/public_html/modules/file/alias66.php on line 6
